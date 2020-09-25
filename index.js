@@ -22,12 +22,20 @@ app.use(express.json());
 // Base de datos
 dbConnection();
 
+// Directorio público
+app.use(express.static("public"));
+
 // Rutas
 app.use("/api/usuarios", require("./routes/users"));
 app.use("/api/autores", require("./routes/authors"));
 app.use("/api/all", require("./routes/searches"));
 app.use("/api/login", require("./routes/auth"));
 app.use("/api/upload", require("./routes/uploads"));
+
+// Path del index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "public/index.html"));
+});
 
 // Conexión al puerto localhost
 app.listen(process.env.PORT, () => {

@@ -7,6 +7,9 @@ const User = require("../models/user.model");
 const {
     generateJWT
 } = require("../helpers/jwt");
+const {
+    googleVerify
+} = require("../helpers/google-verify");
 
 const login = async (req, res = response) => {
 
@@ -56,6 +59,64 @@ const login = async (req, res = response) => {
     }
 }
 
+// Login con Google
+const googleSignIn = async (req, res = response) => {
+
+    const googleToken = req.body.token;
+
+    try {
+
+        const {
+            name,
+            email,
+            picture
+        } = await googleVerify(googleToken);
+
+        const userDB = await User.findOne({
+            email
+        });
+        let user;
+
+        if (!userDB) {
+            // si no existe el usuario
+            user = new User({
+                name: name,
+                email,
+                password: "@@@",
+                img: picture,
+                google: true
+            });
+        } else {
+            // si existe el usuario
+            user = userDB;
+            user.google = true;
+        }
+
+        // Guardarlo en la base de datos
+        await user.save();
+
+        // Generar el TOKEN - JWT
+        const token = await generateJWT(user.id);
+
+        res.json({
+            ok: true,
+            name,
+            email,
+            picture,
+            token
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(401).json({
+            ok: false,
+            message: "Token inválido"
+        });
+    }
+
+}
+
 module.exports = {
-    login
+    login,
+    googleSignIn
 }

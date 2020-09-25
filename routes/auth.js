@@ -8,7 +8,8 @@ const {
     check
 } = require("express-validator");
 const {
-    login
+    login,
+    googleSignIn
 } = require("../controllers/auth");
 const {
     validateFields
@@ -23,6 +24,14 @@ router.post("/",
         validateFields
     ],
     login
+);
+
+router.post("/google",
+    [
+        check("token", "El token de Google es obligatorio").not().isEmpty(),
+        validateFields
+    ],
+    googleSignIn
 );
 
 module.exports = router;
