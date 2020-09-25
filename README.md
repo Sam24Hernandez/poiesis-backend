@@ -12,4 +12,4 @@ Ejecuta `npm run start` para modo desarrollo. Navegue a `http://localhost:3000/`
 
 ## Acerca de
 
-Este repositorio es acerca del backend de la aplicación **PoiesisWeb** una aplicación que desarrolle para mi amigo _Miguel Hilario Martinez Castro_, el frontend podrán encontrarla en mi repositorio como: [poem-app](https://github.com/Sam24Hernandez/poiesis-app).
+Este repositorio es acerca del backend de la aplicación **PoiesisWeb** una aplicación que desarrolle para mi amigo _Miguel Hilario Martinez Castro_, el frontend podrán encontrarla en mi repositorio como: [poiesis-app](https://github.com/Sam24Hernandez/poiesis-app).
