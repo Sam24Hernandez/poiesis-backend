@@ -1,6 +1,11 @@
-const express = require("express");
+// Variables de entorno
 require('dotenv').config();
+const path = require("path");
+
+const express = require("express");
 const cors = require("cors");
+
+// Conexión a la base de datos
 const {
   dbConnection
 } = require("./database/config");
@@ -19,12 +24,15 @@ dbConnection();
 
 // Rutas
 app.use("/api/usuarios", require("./routes/users"));
+app.use("/api/autores", require("./routes/authors"));
+app.use("/api/all", require("./routes/searches"));
 app.use("/api/login", require("./routes/auth"));
+app.use("/api/upload", require("./routes/uploads"));
 
 // Conexión al puerto localhost
 app.listen(process.env.PORT, () => {
   console.log(
-    "Server corriendo en http://localhost:" + process.env.PORT + " \x1b[32m%s\x1b[0m",
+    "Servidor corriendo en http://localhost:" + process.env.PORT + " \x1b[32m%s\x1b[0m",
     "conectado"
   );
 });

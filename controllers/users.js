@@ -11,11 +11,22 @@ const {
 
 // Obtener todos los usuarios
 const getUsers = async (req, res) => {
-  const users = await User.find({}, "name email role google");
+
+  const desde = Number(req.query.desde) || 0;
+
+  const [users, total] = await Promise.all([
+    User
+    .find({}, "name email role google img")
+    .skip(desde)
+    .limit(5),
+
+    User.countDocuments()
+  ]);
 
   res.json({
     ok: true,
-    users
+    users,
+    total
   });
 };
 
