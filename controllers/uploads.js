@@ -1,20 +1,26 @@
 const path = require("path");
 const fs = require("fs");
 
-const { response } = require("express");
-const { v4: uuidv4 } = require("uuid");
-const { updateImage } = require("../helpers/update-image");
+const {
+  response
+} = require("express");
+const {
+  v4: uuidv4
+} = require("uuid");
+const {
+  updateImage
+} = require("../helpers/update-image");
 
 const fileUpload = (req, res = response) => {
   const type = req.params.type;
   const id = req.params.id;
 
   // Validar el tipo
-  const validTypes = ["authors", "users"];
+  const validTypes = ["publications", "users"];
   if (!validTypes.includes(type)) {
     return res.status(400).json({
       ok: false,
-      message: "No es del tipo autor o usuario.",
+      message: "No es del tipo publicación o usuario.",
     });
   }
 

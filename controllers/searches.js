@@ -3,26 +3,22 @@ const {
 } = require("express");
 
 const User = require("../models/user.model");
-const Author = require("../models/author.model");
+const Publication = require("../models/publication.model");
 
 const getAll = async (req, res = response) => {
 
     const search = req.params.search;
     const regex = new RegExp(search, "i");
 
-    const [users, authors] = await Promise.all([
+    const [users] = await Promise.all([
         User.find({
-            name: regex
-        }),
-        Author.find({
             name: regex
         }),
     ]);
 
     res.json({
         ok: true,
-        users,
-        authors
+        users
     });
 }
 
@@ -35,9 +31,10 @@ const getDocumentsCollections = async (req, res = response) => {
     let data = [];
 
     switch (table) {
-        case "authors":
-            data = await Author.find({
-                    name: regex
+        case "publications":
+            data = await Publication.find({
+                    title: regex,
+                    content: regex
                 })
                 .populate("user", "name img");
 
@@ -45,7 +42,19 @@ const getDocumentsCollections = async (req, res = response) => {
 
         case "users":
             data = await User.find({
-                name: regex
+                "$or": [{
+                        "name": {
+                            "$regex": search,
+                            "$options": "i"
+                        }
+                    },
+                    {
+                        "email": {
+                            "$regex": search,
+                            "$options": "i"
+                        }
+                    }
+                ]
             });
 
             break;
@@ -53,7 +62,7 @@ const getDocumentsCollections = async (req, res = response) => {
         default:
             return res.status(400).json({
                 ok: false,
-                message: "La tabla de búsqueda debe coincidir con usuarios/autores."
+                message: "La tabla de búsqueda debe coincidir con usuarios/publicaciones."
             });
     }
 

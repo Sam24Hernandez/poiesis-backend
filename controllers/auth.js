@@ -113,10 +113,28 @@ const googleSignIn = async (req, res = response) => {
             message: "Token inválido"
         });
     }
+}
+
+const renewToken = async (req, res = response) => {
+
+    const uid = req.uid;
+
+    // Generar el Token - JWT
+    const token = await generateJWT(uid);
+
+    // Obtener el usuario por su ID
+    const user = await User.findById(uid);
+
+    res.json({
+        ok: true,
+        token,
+        user
+    });
 
 }
 
 module.exports = {
     login,
-    googleSignIn
+    googleSignIn,
+    renewToken
 }

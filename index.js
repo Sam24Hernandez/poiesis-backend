@@ -27,7 +27,7 @@ app.use(express.static("public"));
 
 // Rutas
 app.use("/api/usuarios", require("./routes/users"));
-app.use("/api/autores", require("./routes/authors"));
+app.use("/api/publicaciones", require("./routes/publications"));
 app.use("/api/all", require("./routes/searches"));
 app.use("/api/login", require("./routes/auth"));
 app.use("/api/upload", require("./routes/uploads"));

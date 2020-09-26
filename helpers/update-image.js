@@ -1,7 +1,6 @@
 const User = require("../models/user.model");
 const fs = require("fs");
-
-const Author = require("../models/author.model");
+const Publication = require("../models/publication.model");
 
 const deleteImage = (path) => {
     if (fs.existsSync(path)) {
@@ -16,18 +15,18 @@ const updateImage = async (type, id, fileName) => {
     let oldPath = "";
 
     switch (type) {
-        case "authors":
-            const author = await Author.findById(id);
-            if (!author) {
-                console.log("El id no coincide con el autor.");
+        case "publications":
+            const publication = await Publication.findById(id);
+            if (!publication) {
+                console.log("El id no coincide con la publicación.");
                 return false;
             }
 
-            oldPath = `./uploads/authors/${ author.img }`;
+            oldPath = `./uploads/publications/${ publication.img }`;
             deleteImage(oldPath);
 
-            author.img = fileName;
-            await author.save();
+            publication.img = fileName;
+            await publication.save();
             return true;
 
             break;

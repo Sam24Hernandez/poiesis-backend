@@ -3,11 +3,19 @@ const {
     model
 } = require("mongoose");
 
-const AuthorSchema = Schema({
+const PublicationSchema = Schema({
 
-    name: {
+    title: {
         type: String,
         required: true
+    },
+    content: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        default: Date.now
     },
     img: {
         type: String
@@ -17,9 +25,10 @@ const AuthorSchema = Schema({
         ref: "User",
         required: true
     },
+
 });
 
-AuthorSchema.method("toJSON", function () {
+PublicationSchema.method("toJSON", function () {
     const {
         __v,
         ...object
@@ -27,4 +36,4 @@ AuthorSchema.method("toJSON", function () {
     return object;
 });
 
-module.exports = model('Author', AuthorSchema);
+module.exports = model('Publication', PublicationSchema);

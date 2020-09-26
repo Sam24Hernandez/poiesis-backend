@@ -82,7 +82,7 @@ const createUser = async (req, res = response) => {
 // Actualizar los datos del usuario
 const updateUser = async (req, res = response) => {
 
-  // TODO: Validar token y comprobar si es el usuario correcto
+  // Validar token y comprobar si es el usuario correcto
   const uid = req.params.id;
 
   try {
@@ -155,7 +155,7 @@ const deleteUser = async (req, res = response) => {
       });
     }
 
-    await User.findOneAndDelete(uid);
+    await User.findByIdAndDelete(uid);
 
     res.json({
       ok: true,
